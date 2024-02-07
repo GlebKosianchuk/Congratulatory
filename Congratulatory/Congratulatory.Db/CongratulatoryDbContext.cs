@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Congratulatory.Db;
 
 public class CongratulatoryDbContext : DbContext
 {
+    private string connectionString;
+
+    public CongratulatoryDbContext(string connectionString)
+    {
+        this.connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+    }
+
     public DbSet<Person> Persons { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("");
+        optionsBuilder.UseNpgsql(connectionString);
     }
 }
